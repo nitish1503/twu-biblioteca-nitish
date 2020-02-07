@@ -17,7 +17,7 @@ class BibliotecaAppTest {
     }
 
     @Test
-    void shouldBeAbleToShowTheListOfBooks() {
+    void shouldShowTheListOfBooks() {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         List<String> expectedBookList = Arrays.asList("Book1", "Book2", "Book3");
 
