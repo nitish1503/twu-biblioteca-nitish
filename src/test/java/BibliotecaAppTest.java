@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class BibliotecaAppTest {
 
@@ -19,9 +19,9 @@ class BibliotecaAppTest {
     @Test
     void shouldBeAbleToShowTheListOfBooks() {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
-        ArrayList<String> expectedBookList = new ArrayList<>(Arrays.asList("Book1", "Book2", "Book3"));
+        List<String> expectedBookList = Arrays.asList("Book1", "Book2", "Book3");
 
-        ArrayList<String> actualBookList = bibliotecaApp.showBookList();
+        List<String> actualBookList = bibliotecaApp.getBooks();
 
         Assertions.assertEquals(expectedBookList, actualBookList);
     }
