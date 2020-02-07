@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class BibliotecaApp {
     public static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+    private ArrayList<String> bookList = new ArrayList<>(Arrays.asList("Book1", "Book2", "Book3"));
 
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
@@ -15,6 +16,6 @@ public class BibliotecaApp {
     }
 
     public ArrayList<String> showBookList() {
-        return new ArrayList<>(Arrays.asList("Book1", "Book2", "Book3"));
+        return bookList;
     }
 }
