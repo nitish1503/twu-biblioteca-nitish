@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BibliotecaApp {
-    public static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
-    private List<String> bookList = new ArrayList<>(Arrays.asList("Book1", "Book2", "Book3"));
+    private static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+    private static final List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
 
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
@@ -16,7 +15,7 @@ public class BibliotecaApp {
         return welcomeMessage;
     }
 
-    public List<String> getBooks() {
-        return bookList;
+    public List<Book> getBooks() {
+        return books;
     }
 }

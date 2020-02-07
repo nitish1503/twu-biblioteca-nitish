@@ -17,11 +17,11 @@ class BibliotecaAppTest {
     }
 
     @Test
-    void shouldShowTheListOfBooks() {
+    void shouldShowTheListOfBooksWithAuthorAndYearOfPublication() {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
-        List<String> expectedBookList = Arrays.asList("Book1", "Book2", "Book3");
+        List<Book> expectedBookList = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
 
-        List<String> actualBookList = bibliotecaApp.getBooks();
+        List<Book> actualBookList = bibliotecaApp.getBooks();
 
         Assertions.assertEquals(expectedBookList, actualBookList);
     }
