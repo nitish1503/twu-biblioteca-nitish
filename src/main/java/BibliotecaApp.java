@@ -8,14 +8,15 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         System.out.println(bibliotecaApp.welcome());
-        System.out.println(bibliotecaApp.getBooks());
+        bibliotecaApp.showBooks();
     }
 
     public String welcome() {
         return welcomeMessage;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public void showBooks() {
+        for (Book book : books)
+            System.out.println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
 }

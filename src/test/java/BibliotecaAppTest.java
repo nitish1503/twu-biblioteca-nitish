@@ -1,8 +1,14 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.Extensions;
 
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class BibliotecaAppTest {
 
@@ -18,11 +24,14 @@ class BibliotecaAppTest {
 
     @Test
     void shouldShowTheListOfBooksWithAuthorAndYearOfPublication() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
-        List<Book> expectedBookList = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
 
-        List<Book> actualBookList = bibliotecaApp.getBooks();
+        bibliotecaApp.showBooks();
 
-        Assertions.assertEquals(expectedBookList, actualBookList);
+        for (Book book : books)
+            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
 }
