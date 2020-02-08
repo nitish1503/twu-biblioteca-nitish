@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.Extensions;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -33,5 +31,16 @@ class BibliotecaAppTest {
 
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+    }
+
+    @Test
+    void shouldShowAMenu() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+
+        bibliotecaApp.showMenu();
+
+        verify(printStream).println("1. List of books");
     }
 }

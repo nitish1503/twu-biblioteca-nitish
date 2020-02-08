@@ -8,7 +8,7 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         System.out.println(bibliotecaApp.welcome());
-        bibliotecaApp.showBooks();
+        bibliotecaApp.showMenu();
     }
 
     public String welcome() {
@@ -18,5 +18,9 @@ public class BibliotecaApp {
     public void showBooks() {
         for (Book book : books)
             System.out.println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+    }
+
+    public void showMenu() {
+        System.out.println("1. List of books");
     }
 }
