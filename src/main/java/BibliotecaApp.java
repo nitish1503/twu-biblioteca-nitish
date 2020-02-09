@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class BibliotecaApp {
     private static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
@@ -9,7 +10,7 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         System.out.println(bibliotecaApp.welcome());
-        bibliotecaApp.showMenu();
+        bibliotecaApp.menu();
     }
 
     public String welcome() {
@@ -21,7 +22,13 @@ public class BibliotecaApp {
             System.out.println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
 
-    public void showMenu() {
+    public void menu() {
         System.out.println(menu);
+        Scanner sc = new Scanner(System.in);
+        int option = sc.nextInt();
+
+        if (option == 1) {
+            showBooks();
+        }
     }
 }

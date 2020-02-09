@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
@@ -37,10 +38,26 @@ class BibliotecaAppTest {
     void shouldShowAMenu() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
+        System.setIn(new ByteArrayInputStream("1".getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
 
-        bibliotecaApp.showMenu();
+        bibliotecaApp.menu();
 
         verify(printStream).println("1. List of books");
+    }
+
+    @Test
+    void shouldShowAListOfBooksWhenChosenFromMenu() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        System.setIn(new ByteArrayInputStream("1".getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+
+        bibliotecaApp.menu();
+
+        verify(printStream).println("1. List of books");
+        for (Book book : books)
+            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
 }
