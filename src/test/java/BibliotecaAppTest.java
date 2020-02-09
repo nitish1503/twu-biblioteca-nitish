@@ -156,7 +156,6 @@ class BibliotecaAppTest {
         String simulatedUserInput = "Book1";
         System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
-        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
         bibliotecaApp.checkout();
         System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
 
@@ -172,7 +171,6 @@ class BibliotecaAppTest {
         String simulatedUserInput = "Book1";
         System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
-        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
 
         bibliotecaApp.returnBook();
 
