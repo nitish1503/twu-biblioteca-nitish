@@ -117,4 +117,17 @@ class BibliotecaAppTest {
 
         verify(printStream).println("Thank you! Enjoy the book");
     }
+
+    @Test
+    void shouldNotifyOnUnSuccessfulCheckoutOfABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book3";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+
+        bibliotecaApp.checkout();
+
+        verify(printStream).println("Sorry! that book is not available");
+    }
 }
