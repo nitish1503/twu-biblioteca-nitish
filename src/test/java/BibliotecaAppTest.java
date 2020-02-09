@@ -164,4 +164,18 @@ class BibliotecaAppTest {
 
         verify(printStream).println("Thank you for returning the book");
     }
+
+    @Test
+    void shouldNotifyOnUnSuccessfulReturnOfABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book1";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+
+        bibliotecaApp.returnBook();
+
+        verify(printStream).println("That is not a valid book to return");
+    }
 }
