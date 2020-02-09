@@ -27,8 +27,9 @@ public class BibliotecaApp {
         Scanner sc = new Scanner(System.in);
         int option = sc.nextInt();
 
-        if (option == 1) {
+        if (option == 1)
             showBooks();
-        }
+        else
+            System.out.println("Please select a valid option!");
     }
 }

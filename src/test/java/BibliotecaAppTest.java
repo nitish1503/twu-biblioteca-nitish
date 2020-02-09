@@ -60,4 +60,17 @@ class BibliotecaAppTest {
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
+
+    @Test
+    void shouldNotifyWhenChosenAnInvalidOptionFromMenu() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        System.setIn(new ByteArrayInputStream("2".getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+
+        bibliotecaApp.menu();
+
+        verify(printStream).println("1. List of books");
+        verify(printStream).println("Please select a valid option!");
+    }
 }
