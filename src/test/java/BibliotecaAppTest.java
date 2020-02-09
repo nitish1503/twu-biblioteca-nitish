@@ -6,8 +6,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class BibliotecaAppTest {
 
@@ -38,25 +37,25 @@ class BibliotecaAppTest {
     void shouldShowAMenu() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("1".getBytes()));
+        System.setIn(new ByteArrayInputStream("4".getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
 
         bibliotecaApp.menu();
 
-        verify(printStream).println("1. List of books");
+        verify(printStream, times(1)).println("1. List of books\n4. Quit");
     }
 
     @Test
     void shouldShowAListOfBooksWhenChosenFromMenu() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("1".getBytes()));
+        System.setIn(new ByteArrayInputStream("1\n4".getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
 
         bibliotecaApp.menu();
 
-        verify(printStream).println("1. List of books");
+        verify(printStream, times(2)).println("1. List of books\n4. Quit");
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
@@ -65,12 +64,28 @@ class BibliotecaAppTest {
     void shouldNotifyWhenChosenAnInvalidOptionFromMenu() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("2".getBytes()));
+        System.setIn(new ByteArrayInputStream("2\n4".getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
 
         bibliotecaApp.menu();
 
-        verify(printStream).println("1. List of books");
+        verify(printStream, times(2)).println("1. List of books\n4. Quit");
         verify(printStream).println("Please select a valid option!");
+    }
+
+    @Test
+    void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "1\n4";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+
+        bibliotecaApp.menu();
+
+        verify(printStream, times(2)).println("1. List of books\n4. Quit");
+        for (Book book : books)
+            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
 }
