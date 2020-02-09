@@ -72,6 +72,7 @@ public class BibliotecaApp {
             if (bookTitle.equals(book.getTitle())) {
                 books.add(book);
                 checkedOutBooks.remove(book);
+                System.out.println("Thank you for returning the book");
                 return;
             }
         }

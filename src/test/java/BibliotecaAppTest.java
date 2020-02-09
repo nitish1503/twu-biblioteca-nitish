@@ -42,7 +42,7 @@ class BibliotecaAppTest {
 
         bibliotecaApp.menu();
 
-        verify(printStream, times(1)).println("1. List of books\n4. Quit");
+        verify(printStream, times(1)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
     }
 
     @Test
@@ -55,7 +55,7 @@ class BibliotecaAppTest {
 
         bibliotecaApp.menu();
 
-        verify(printStream, times(2)).println("1. List of books\n4. Quit");
+        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
@@ -69,7 +69,7 @@ class BibliotecaAppTest {
 
         bibliotecaApp.menu();
 
-        verify(printStream, times(2)).println("1. List of books\n4. Quit");
+        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
         verify(printStream).println("Please select a valid option!");
     }
 
@@ -84,7 +84,7 @@ class BibliotecaAppTest {
 
         bibliotecaApp.menu();
 
-        verify(printStream, times(2)).println("1. List of books\n4. Quit");
+        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
     }
@@ -147,5 +147,21 @@ class BibliotecaAppTest {
         bibliotecaApp.showBooks();
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+    }
+
+    @Test
+    void shouldNotifyOnSuccessfulReturnOfABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book1";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+        bibliotecaApp.checkout();
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+        bibliotecaApp.returnBook();
+
+        verify(printStream).println("Thank you for returning the book");
     }
 }
