@@ -64,7 +64,7 @@ class BibliotecaAppTest {
     void shouldNotifyWhenChosenAnInvalidOptionFromMenu() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("2\n4".getBytes()));
+        System.setIn(new ByteArrayInputStream("8\n4".getBytes()));
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
 
         bibliotecaApp.menu();
@@ -87,5 +87,21 @@ class BibliotecaAppTest {
         verify(printStream, times(2)).println("1. List of books\n4. Quit");
         for (Book book : books)
             verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+    }
+
+    @Test
+    void shouldCheckoutABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book1";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+
+        bibliotecaApp.checkout();
+
+        bibliotecaApp.showBooks();
+        verify(printStream, times(0)).println(books.get(0).getTitle() + " | " + books.get(0).getAuthor() + " | " + books.get(0).getYearOfPublication());
+        verify(printStream, times(1)).println(books.get(1).getTitle() + " | " + books.get(1).getAuthor() + " | " + books.get(1).getYearOfPublication());
     }
 }
