@@ -104,4 +104,17 @@ class BibliotecaAppTest {
         verify(printStream, times(0)).println(books.get(0).getTitle() + " | " + books.get(0).getAuthor() + " | " + books.get(0).getYearOfPublication());
         verify(printStream, times(1)).println(books.get(1).getTitle() + " | " + books.get(1).getAuthor() + " | " + books.get(1).getYearOfPublication());
     }
+
+    @Test
+    void shouldNotifyOnSuccessfulCheckoutOfABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book1";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+
+        bibliotecaApp.checkout();
+
+        verify(printStream).println("Thank you! Enjoy the book");
+    }
 }
