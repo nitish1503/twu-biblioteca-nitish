@@ -130,4 +130,22 @@ class BibliotecaAppTest {
 
         verify(printStream).println("Sorry! that book is not available");
     }
+
+    @Test
+    void shouldReturnABook() {
+        PrintStream printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+        String simulatedUserInput = "Book1";
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        List<Book> books = Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990));
+        bibliotecaApp.checkout();
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+        bibliotecaApp.returnBook();
+
+        bibliotecaApp.showBooks();
+        for (Book book : books)
+            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+    }
 }
