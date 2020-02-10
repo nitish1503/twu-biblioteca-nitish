@@ -1,22 +1,41 @@
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 
 class MenuTest {
+    BookShelf bookShelf;
+    Menu menu;
+
+    ByteArrayInputStream byteArrayInputStream;
+    PrintStream printStream;
+
+    @BeforeEach
+    void setup() {
+        bookShelf = mock(BookShelf.class);
+        menu = new Menu(bookShelf);
+
+        printStream = mock(PrintStream.class);
+        System.setOut(printStream);
+    }
+
+    @AfterEach
+    void afterEach() throws IOException {
+        byteArrayInputStream.close();
+        printStream.close();
+        System.setIn(System.in);
+        System.setOut(System.out);
+    }
 
     @Test
     void shouldShowAMenu() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("4".getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        Menu menu = new Menu(bookShelf);
+        byteArrayInputStream = new ByteArrayInputStream("4".getBytes());
+        System.setIn(byteArrayInputStream);
 
         menu.display();
 
@@ -25,28 +44,18 @@ class MenuTest {
 
     @Test
     void shouldShowAListOfBooksWhenChosenFromMenu() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("1\n4".getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        Menu menu = new Menu(bookShelf);
+        byteArrayInputStream = new ByteArrayInputStream("1\n4".getBytes());
+        System.setIn(byteArrayInputStream);
 
         menu.actions();
 
-        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
-        for (Book book : books)
-            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+        verify(bookShelf, times(1)).showBooks();
     }
 
     @Test
-    void shouldNotifyWhenChosenAnInvalidOptionFromMenu() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        System.setIn(new ByteArrayInputStream("8\n4".getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        Menu menu = new Menu(bookShelf);
+    void shouldDisplayAMessageWhenChosenAnInvalidOptionFromMenu() {
+        byteArrayInputStream = new ByteArrayInputStream("8\n4".getBytes());
+        System.setIn(byteArrayInputStream);
 
         menu.actions();
 
@@ -56,19 +65,12 @@ class MenuTest {
 
     @Test
     void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "1\n4";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        Menu menu = new Menu(bookShelf);
+        byteArrayInputStream = new ByteArrayInputStream("1\n4".getBytes());
+        System.setIn(byteArrayInputStream);
 
         menu.actions();
 
-        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
-        for (Book book : books)
-            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+        verify(printStream, times(1)).println("Thank You!");
     }
 
 }

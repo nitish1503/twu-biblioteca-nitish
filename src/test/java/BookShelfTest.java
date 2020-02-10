@@ -1,116 +1,61 @@
+import Exceptions.BookNotFoundException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 class BookShelfTest {
 
+    BookShelf bookShelf;
+    List<Book> books;
+
+    @BeforeEach
+    void setup() {
+        books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
+        bookShelf = new BookShelf(books);
+    }
+
     @Test
     void shouldShowTheListOfBooksWithAuthorAndYearOfPublication() {
         PrintStream printStream = mock(PrintStream.class);
         System.setOut(printStream);
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
 
         bookShelf.showBooks();
 
-        for (Book book : books)
-            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
-    }
-
-    @Test
-    void shouldCheckoutABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book1";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-
-        bookShelf.checkout();
-
-        bookShelf.showBooks();
+        verify(printStream, times(1)).println("Book1 | Author1 | 1999");
         verify(printStream, times(1)).println("Book2 | Author2 | 1990");
     }
 
     @Test
-    void shouldNotifyOnSuccessfulCheckoutOfABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book1";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
+    void shouldCheckoutABook() throws BookNotFoundException {
+        bookShelf.checkout(books.get(0));
 
-        bookShelf.checkout();
-
-        verify(printStream).println("Thank you! Enjoy the book");
+        Assertions.assertFalse(books.contains(new Book("Book1", "Author1", 1999)));
     }
 
     @Test
-    void shouldNotifyOnUnSuccessfulCheckoutOfABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book3";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-
-        bookShelf.checkout();
-
-        verify(printStream).println("Sorry! that book is not available");
+    void shouldThrowAnExceptionOnUnSuccessfulCheckoutOfABook() {
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.checkout(new Book("Book3", "Author3", 2000)));
     }
 
     @Test
-    void shouldReturnABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book1";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        bookShelf.checkout();
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+    void shouldReturnABook() throws BookNotFoundException {
+        bookShelf.checkout(books.get(0));
 
-        bookShelf.returnBook();
+        bookShelf.returnBook(new Book("Book1", "Author1", 1999));
 
-        bookShelf.showBooks();
-        for (Book book : books)
-            verify(printStream).println(book.getTitle() + " | " + book.getAuthor() + " | " + book.getYearOfPublication());
+        Assertions.assertTrue(books.contains(new Book("Book1", "Author1", 1999)));
     }
 
     @Test
-    void shouldNotifyOnSuccessfulReturnOfABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book1";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-        bookShelf.checkout();
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-        bookShelf.returnBook();
-
-        verify(printStream).println("Thank you for returning the book");
-    }
-
-    @Test
-    void shouldNotifyOnUnSuccessfulReturnOfABook() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-        String simulatedUserInput = "Book1";
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-        ArrayList<Book> books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        BookShelf bookShelf = new BookShelf(books);
-
-        bookShelf.returnBook();
-
-        verify(printStream).println("That is not a valid book to return");
+    void shouldThrowAnExceptionOnUnSuccessfulReturnOfABook() {
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(new Book("Book3", "Author3", 2000)));
     }
 
 }
