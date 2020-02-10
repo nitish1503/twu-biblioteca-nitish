@@ -2,6 +2,11 @@ import java.util.Scanner;
 
 public class Menu {
     private static final String menu = "1. List of books\n2. Checkout\n3. Return\n4. Quit";
+    private static final int OPTION_ONE = 1;
+    private static final int OPTION_TWO = 2;
+    private static final int OPTION_THREE = 3;
+    private static final int OPTION_FOUR = 4;
+
     private BookShelf bookShelf;
 
     public Menu(BookShelf bookShelf) {
@@ -21,13 +26,13 @@ public class Menu {
             display();
             option = sc.nextInt();
 
-            if (option == 1)
+            if (option == OPTION_ONE)
                 bookShelf.showBooks();
-            else if (option == 2)
+            else if (option == OPTION_TWO)
                 bookShelf.checkout();
-            else if (option == 3)
+            else if (option == OPTION_THREE)
                 bookShelf.returnBook();
-            else if (option == 4) {
+            else if (option == OPTION_FOUR) {
                 System.out.println("Thank You!");
             } else
                 System.out.println("Please select a valid option!");
