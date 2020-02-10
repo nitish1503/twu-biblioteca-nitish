@@ -14,7 +14,7 @@ class BookTest {
 
         book.print();
 
-        verify(printStream).println("Book1 | Author1 | 1999");
+        verify(printStream).println("Book1\tAuthor1\t\t1999");
 
         printStream.close();
     }

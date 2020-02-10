@@ -12,7 +12,7 @@ public class Book {
     }
 
     public void print() {
-        System.out.println(this.title + " | " + this.author + " | " + this.yearOfPublication);
+        System.out.println(this.title + "\t" + this.author + "\t\t" + this.yearOfPublication);
     }
 
     @Override

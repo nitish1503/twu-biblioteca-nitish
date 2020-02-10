@@ -28,8 +28,8 @@ class BookShelfTest {
 
         bookShelf.showBooks();
 
-        verify(printStream, times(1)).println("Book1 | Author1 | 1999");
-        verify(printStream, times(1)).println("Book2 | Author2 | 1990");
+        verify(printStream, times(1)).println("Book1\tAuthor1\t\t1999");
+        verify(printStream, times(1)).println("Book2\tAuthor2\t\t1990");
     }
 
     @Test

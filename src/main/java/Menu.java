@@ -36,6 +36,7 @@ public class Menu {
 
                 case OPTION_SHOW_BOOK:
                     bookShelf.showBooks();
+                    System.out.println();
                     break;
                 case OPTION_CHECKOUT_BOOK:
                     System.out.println("Enter book title:");

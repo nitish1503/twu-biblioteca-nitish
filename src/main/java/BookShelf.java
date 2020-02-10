@@ -13,6 +13,7 @@ public class BookShelf {
     }
 
     public void showBooks() {
+        System.out.println("TITLE\tAUTHOR\t\tYEAR OF PUBLICATION");
         books.forEach(Book::print);
     }
 
