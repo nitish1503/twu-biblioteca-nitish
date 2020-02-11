@@ -1,3 +1,5 @@
+import Exceptions.InvalidOptionException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +22,11 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         System.out.println(bibliotecaApp.welcome());
-        menu.actions();
+        try {
+            menu.actions();
+        } catch (InvalidOptionException e) {
+            System.out.println("Please select a valid option...");
+        }
+
     }
 }

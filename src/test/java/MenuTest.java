@@ -1,9 +1,10 @@
+import Exceptions.InvalidOptionException;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.mockito.Mockito.*;
@@ -25,8 +26,7 @@ class MenuTest {
     }
 
     @AfterEach
-    void afterEach() throws IOException {
-        byteArrayInputStream.close();
+    void after() {
         printStream.close();
         System.setIn(System.in);
         System.setOut(System.out);
@@ -34,38 +34,22 @@ class MenuTest {
 
     @Test
     void shouldShowAMenu() {
-        byteArrayInputStream = new ByteArrayInputStream("4".getBytes());
-        System.setIn(byteArrayInputStream);
-
         menu.display();
 
         verify(printStream, times(1)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
     }
 
     @Test
-    void shouldShowAListOfBooksWhenChosenFromMenu() {
-        byteArrayInputStream = new ByteArrayInputStream("1\n4".getBytes());
+    void shouldThrowAnExceptionWhenChosenAnInvalidOptionFromMenu() {
+        byteArrayInputStream = new ByteArrayInputStream("8".getBytes());
         System.setIn(byteArrayInputStream);
 
-        menu.actions();
-
-        verify(bookShelf, times(1)).showBooks();
+        Assertions.assertThrows(InvalidOptionException.class, () -> menu.actions());
     }
 
     @Test
-    void shouldDisplayAMessageWhenChosenAnInvalidOptionFromMenu() {
-        byteArrayInputStream = new ByteArrayInputStream("8\n4".getBytes());
-        System.setIn(byteArrayInputStream);
-
-        menu.actions();
-
-        verify(printStream, times(2)).println("1. List of books\n2. Checkout\n3. Return\n4. Quit");
-        verify(printStream).println("Please select a valid option!");
-    }
-
-    @Test
-    void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() {
-        byteArrayInputStream = new ByteArrayInputStream("1\n4".getBytes());
+    void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() throws InvalidOptionException {
+        byteArrayInputStream = new ByteArrayInputStream("4".getBytes());
         System.setIn(byteArrayInputStream);
 
         menu.actions();
