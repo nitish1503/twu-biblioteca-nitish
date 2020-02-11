@@ -6,14 +6,16 @@ import java.util.List;
 public class BookShelf {
     private final List<Book> books;
     private final List<Book> checkedOutBooks;
+    private final Stream stream;
 
-    public BookShelf(List<Book> books) {
+    public BookShelf(List<Book> books, Stream stream) {
         this.books = books;
+        this.stream = stream;
         this.checkedOutBooks = new ArrayList<>();
     }
 
     public void showBooks() {
-        System.out.println("TITLE\tAUTHOR\t\tYEAR OF PUBLICATION");
+        stream.write("TITLE\tAUTHOR\t\tYEAR OF PUBLICATION");
         books.forEach(Book::print);
     }
 
@@ -31,6 +33,5 @@ public class BookShelf {
             checkedOutBooks.remove(book);
         } else
             throw new BookNotFoundException();
-
     }
 }

@@ -11,14 +11,14 @@ public class Menu {
     private BookShelf bookShelf;
     private Stream stream;
 
-    public Menu(BookShelf bookShelf) {
+    public Menu(BookShelf bookShelf, Stream stream) {
         this.bookShelf = bookShelf;
-        stream = new Stream();
+        this.stream = stream;
     }
 
     public void display() {
-        System.out.println(menu);
-        System.out.println("Please select your choice...");
+        stream.write(menu);
+        stream.write("Please select your choice...");
     }
 
     public void actions() throws InvalidOptionException {
@@ -26,30 +26,30 @@ public class Menu {
 
         do {
             display();
-            option = stream.readOption();
+            option = stream.readInt();
             switch (option) {
                 case OPTION_SHOW_BOOK:
                     bookShelf.showBooks();
-                    System.out.println();
+                    stream.write("\n");
                     break;
                 case OPTION_CHECKOUT_BOOK:
                     try {
                         bookShelf.checkout(stream.readBook());
-                        stream.checkoutMessage();
+                        stream.write("Thank you! Enjoy the book");
                     } catch (BookNotFoundException e) {
-                        stream.bookUnAvailableForCheckout();
+                        stream.write("Sorry! that book is not available for checkout");
                     }
                     break;
                 case OPTION_RETURN_BOOK:
                     try {
                         bookShelf.returnBook(stream.readBook());
-                        stream.returnBookMessage();
+                        stream.write("Thanks for returning the book");
                     } catch (BookNotFoundException e) {
-                        stream.bookUnAvailableForReturn();
+                        stream.write("Sorry! that book is not valid for return");
                     }
                     break;
                 case OPTION_QUIT:
-                    stream.thankYou();
+                    stream.write("Thank You!");
                     break;
                 default:
                     throw new InvalidOptionException();

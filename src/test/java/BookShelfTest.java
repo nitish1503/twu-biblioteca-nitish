@@ -14,48 +14,51 @@ class BookShelfTest {
 
     BookShelf bookShelf;
     List<Book> books;
+    Stream stream;
 
     @BeforeEach
     void setup() {
-        books = new ArrayList<>(Arrays.asList(new Book("Book1", "Author1", 1999), new Book("Book2", "Author2", 1990)));
-        bookShelf = new BookShelf(books);
+        stream = mock(Stream.class);
+        books = new ArrayList<>(Arrays.asList(
+                new Book("Book1", "Author1", 1999, stream),
+                new Book("Book2", "Author2", 1990, stream)));
+        bookShelf = new BookShelf(books, stream);
     }
 
     @Test
     void shouldShowTheListOfBooksWithAuthorAndYearOfPublication() {
-        PrintStream printStream = mock(PrintStream.class);
-        System.setOut(printStream);
-
         bookShelf.showBooks();
 
-        verify(printStream, times(1)).println("Book1\tAuthor1\t\t1999");
-        verify(printStream, times(1)).println("Book2\tAuthor2\t\t1990");
+        verify(stream).write("Book1\tAuthor1\t\t1999");
+        verify(stream).write("Book2\tAuthor2\t\t1990");
     }
 
     @Test
     void shouldCheckoutABook() throws BookNotFoundException {
         bookShelf.checkout(books.get(0));
 
-        Assertions.assertFalse(books.contains(new Book("Book1", "Author1", 1999)));
+        Assertions.assertFalse(books.contains(new Book("Book1", "Author1", 1999, stream)));
     }
 
     @Test
     void shouldThrowAnExceptionOnUnSuccessfulCheckoutOfABook() {
-        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.checkout(new Book("Book3", "Author3", 2000)));
+        Assertions.assertThrows(BookNotFoundException.class, () ->
+                bookShelf.checkout(new Book("Book3", "Author3", 2000, stream)));
     }
 
     @Test
     void shouldReturnABook() throws BookNotFoundException {
         bookShelf.checkout(books.get(0));
 
-        bookShelf.returnBook(new Book("Book1", "Author1", 1999));
+        bookShelf.returnBook(new Book("Book1", "Author1", 1999, stream));
 
-        Assertions.assertTrue(books.contains(new Book("Book1", "Author1", 1999)));
+        Assertions.assertTrue(books.contains(new Book("Book1", "Author1", 1999, stream)));
     }
 
     @Test
     void shouldThrowAnExceptionOnUnSuccessfulReturnOfABook() {
-        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(new Book("Book3", "Author3", 2000)));
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(
+                new Book("Book3", "Author3", 2000, stream)));
     }
 
 }

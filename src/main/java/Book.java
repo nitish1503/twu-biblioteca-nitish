@@ -4,15 +4,17 @@ public class Book {
     private final String title;
     private final String author;
     private final int yearOfPublication;
+    private final Stream stream;
 
-    public Book(String title, String author, int yearOfPublication) {
+    public Book(String title, String author, int yearOfPublication, Stream stream) {
         this.title = title;
         this.author = author;
         this.yearOfPublication = yearOfPublication;
+        this.stream = stream;
     }
 
     public void print() {
-        System.out.println(this.title + "\t" + this.author + "\t\t" + this.yearOfPublication);
+        stream.write(this.title + "\t" + this.author + "\t\t" + this.yearOfPublication);
     }
 
     @Override
