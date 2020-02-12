@@ -1,3 +1,4 @@
+import Exceptions.MovieNotAvailableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +59,16 @@ class MenuTest {
         menu.actions();
 
         verify(movieShelf).showMovies();
+    }
+
+    @Test
+    void shouldCheckoutAMovieIfSelectedFromMenu() throws MovieNotAvailableException {
+        when(stream.readInt()).thenReturn(6, 4);
+        Movie movie = new Movie("Movie1", 2019, "Director1", 9, stream);
+        when(stream.readMovie()).thenReturn(movie);
+
+        menu.actions();
+
+        verify(movieShelf).checkout(movie);
     }
 }

@@ -1,4 +1,5 @@
 import Exceptions.BookNotFoundException;
+import Exceptions.MovieNotAvailableException;
 
 public interface MenuOption {
     void run();
@@ -103,5 +104,26 @@ class OptionShowMovie implements MenuOption {
     public void run() {
         movieShelf.showMovies();
         stream.write("\n");
+    }
+}
+
+class OptionCheckoutMovie implements MenuOption {
+
+    private final MovieShelf movieShelf;
+    private final Stream stream;
+
+    public OptionCheckoutMovie(MovieShelf movieShelf, Stream stream) {
+        this.movieShelf = movieShelf;
+        this.stream = stream;
+    }
+
+    @Override
+    public void run() {
+        try {
+            movieShelf.checkout(stream.readMovie());
+            stream.write("Thank You! Enjoy the movie");
+        } catch (MovieNotAvailableException e) {
+            stream.write("Sorry! that movie is not available for checkout");
+        }
     }
 }

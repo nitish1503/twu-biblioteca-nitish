@@ -28,4 +28,18 @@ public class Stream {
         int yearOfPublication = scanner.nextInt();
         return new Book(title, author, yearOfPublication, this);
     }
+
+    public Movie readMovie() {
+        Scanner scanner = new Scanner(System.in);
+        write("Enter movie name:");
+        String name = scanner.next();
+        write("Enter year: ");
+        int year = scanner.nextInt();
+        write("Enter director name: ");
+        String director = scanner.next();
+        write("Enter rating: ");
+        int rating = scanner.nextInt();
+        return new Movie(name, year, director, rating, this);
+    }
+
 }
