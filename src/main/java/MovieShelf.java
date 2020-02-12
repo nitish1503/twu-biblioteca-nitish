@@ -1,3 +1,5 @@
+import Exceptions.MovieNotAvailableException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,11 @@ public class MovieShelf {
         movies.forEach(Movie::print);
     }
 
-    public void checkout(Movie movie) {
+    public void checkout(Movie movie) throws MovieNotAvailableException {
         if (movies.contains(movie)) {
             checkedOutMovies.add(movie);
             movies.remove(movie);
-        }
+        } else
+            throw new MovieNotAvailableException();
     }
 }

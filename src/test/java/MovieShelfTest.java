@@ -1,3 +1,4 @@
+import Exceptions.MovieNotAvailableException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ class MovieShelfTest {
     }
 
     @Test
-    void shouldCheckOutAMovie() {
+    void shouldCheckOutAMovie() throws MovieNotAvailableException {
         Stream stream = mock(Stream.class);
         List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
         MovieShelf movieShelf = new MovieShelf(movies, stream);
@@ -30,5 +31,14 @@ class MovieShelfTest {
         movieShelf.checkout(movies.get(0));
 
         Assertions.assertFalse(movies.contains(new Movie("Movie1", 2019, "Director1", 9, stream)));
+    }
+
+    @Test
+    void shouldThrowAnExceptionWhenMovieIsUnAvailable() {
+        Stream stream = mock(Stream.class);
+        List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
+        MovieShelf movieShelf = new MovieShelf(movies, stream);
+
+        Assertions.assertThrows(MovieNotAvailableException.class, () -> movieShelf.checkout(new Movie("Movie1", 2012, "Director1", 8, stream)));
     }
 }
