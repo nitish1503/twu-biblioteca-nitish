@@ -16,6 +16,7 @@ public class MovieShelf {
     }
 
     public void showMovies() {
+        stream.write("NAME\tYEAR\tDIRECTOR\tRATING");
         movies.forEach(Movie::print);
     }
 
