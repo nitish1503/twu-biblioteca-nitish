@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 class MenuTest {
     Stream stream;
     BookShelf bookShelf;
+    MovieShelf movieShelf;
     Menu menu;
     MenuOption menuOption;
 
@@ -14,7 +15,8 @@ class MenuTest {
     void setup() {
         stream = mock(Stream.class);
         bookShelf = mock(BookShelf.class);
-        menu = new Menu(bookShelf, stream);
+        movieShelf = mock(MovieShelf.class);
+        menu = new Menu(bookShelf, movieShelf, stream);
         menuOption = mock(MenuOption.class);
     }
 
@@ -29,7 +31,6 @@ class MenuTest {
     @Test
     void shouldDisplayAMessageWhenChosenAnInvalidOptionFromMenu() {
         when(stream.readInt()).thenReturn(8, 4);
-        menu = new Menu(bookShelf, stream);
 
         menu.actions();
 
@@ -48,5 +49,14 @@ class MenuTest {
         verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
         verify(stream).write("Please select your choice...");
         verify(stream).write("Thank You.");
+    }
+
+    @Test
+    void shouldShowAListOfMoviesIfSelectedFromMenu() {
+        when(stream.readInt()).thenReturn(5, 4);
+
+        menu.actions();
+
+        verify(movieShelf).showMovies();
     }
 }

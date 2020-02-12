@@ -88,3 +88,20 @@ class OptionInvalid implements MenuOption {
         stream.write("Please select a valid option");
     }
 }
+
+class OptionShowMovie implements MenuOption {
+
+    private final MovieShelf movieShelf;
+    private final Stream stream;
+
+    public OptionShowMovie(MovieShelf movieShelf, Stream stream) {
+        this.movieShelf = movieShelf;
+        this.stream = stream;
+    }
+
+    @Override
+    public void run() {
+        movieShelf.showMovies();
+        stream.write("\n");
+    }
+}

@@ -28,5 +28,4 @@ public class Stream {
         int yearOfPublication = scanner.nextInt();
         return new Book(title, author, yearOfPublication, this);
     }
-
 }

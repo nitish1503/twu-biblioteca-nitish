@@ -14,8 +14,13 @@ public class BibliotecaApp {
         List<Book> books = new ArrayList<>(Arrays.asList(
                 new Book("Book1", "Author1", 1999, stream),
                 new Book("Book2", "Author2", 1990, stream)));
+        List<Movie> movies = new ArrayList<>(Arrays.asList(
+                new Movie("Movie1", 2019, "Director1", 9, stream),
+                new Movie("Movie2", 2018, "Director2", 8, stream)));
         BookShelf bookShelf = new BookShelf(books, stream);
-        menu = new Menu(bookShelf, stream);
+        MovieShelf movieShelf = new MovieShelf(movies, stream);
+
+        menu = new Menu(bookShelf, movieShelf, stream);
     }
 
     public String welcome() {

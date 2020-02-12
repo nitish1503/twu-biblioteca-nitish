@@ -4,12 +4,15 @@ public class Menu {
     private static final int OPTION_CHECKOUT_BOOK = 2;
     private static final int OPTION_RETURN_BOOK = 3;
     private static final int OPTION_QUIT = 4;
+    private static final int OPTION_SHOW_MOVIE = 5;
 
     private BookShelf bookShelf;
+    private MovieShelf movieShelf;
     private Stream stream;
 
-    public Menu(BookShelf bookShelf, Stream stream) {
+    public Menu(BookShelf bookShelf, MovieShelf movieShelf, Stream stream) {
         this.bookShelf = bookShelf;
+        this.movieShelf = movieShelf;
         this.stream = stream;
     }
 
@@ -39,6 +42,8 @@ public class Menu {
                 return new OptionReturnBook(bookShelf, stream);
             case OPTION_QUIT:
                 return new OptionQuit(stream);
+            case OPTION_SHOW_MOVIE:
+                return new OptionShowMovie(movieShelf, stream);
             default:
                 return new OptionInvalid(stream);
         }
