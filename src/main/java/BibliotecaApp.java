@@ -5,13 +5,13 @@ import java.util.List;
 
 public class BibliotecaApp {
     private static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
-    List<User> users;
-    User currentUser;
     private static Stream stream;
     private static Menu menu;
 
-    BookShelf bookShelf;
-    MovieShelf movieShelf;
+    private List<User> users;
+    private User currentUser;
+
+    private BookShelf bookShelf;
 
     public BibliotecaApp() {
         stream = new Stream(new PrintStream(System.out));
@@ -27,7 +27,7 @@ public class BibliotecaApp {
         currentUser = new User("XXX-XXXX", "xxxxxxxx", stream);
 
         bookShelf = new BookShelf(books, currentUser, stream);
-        movieShelf = new MovieShelf(movies, stream);
+        MovieShelf movieShelf = new MovieShelf(movies, stream);
 
         menu = new Menu(this, bookShelf, movieShelf, stream);
     }

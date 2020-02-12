@@ -12,6 +12,10 @@ public class User {
         this.stream = stream;
     }
 
+    public void show() {
+        stream.write("Library Id: " + libraryId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,7 +30,4 @@ public class User {
         return Objects.hash(libraryId, password);
     }
 
-    public void show() {
-        stream.write("Library Id: " + libraryId);
-    }
 }
