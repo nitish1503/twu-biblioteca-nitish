@@ -27,17 +27,18 @@ class MenuTest {
     void shouldShowAMenu() {
         menu.display();
 
-        verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details");
         verify(stream).write("Please select your choice...");
     }
 
     @Test
     void shouldDisplayAMessageWhenChosenAnInvalidOptionFromMenu() {
-        when(stream.readInt()).thenReturn(8, 4);
+        when(stream.readInt()).thenReturn(9, 4);
 
         menu.actions();
 
-        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2))
+                .write("1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details");
         verify(stream, times(2)).write("Please select your choice...");
         verify(stream).write("Please select a valid option");
         verify(stream).write("Thank You.");
@@ -49,7 +50,7 @@ class MenuTest {
 
         menu.actions();
 
-        verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details");
         verify(stream).write("Please select your choice...");
         verify(stream).write("Thank You.");
     }
@@ -71,7 +72,8 @@ class MenuTest {
 
         menu.actions();
 
-        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2))
+                .write("1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details");
         verify(stream, times(2)).write("Please select your choice...");
         verify(stream).write("Thank You! Enjoy the movie");
         verify(stream).write("Thank You.");
@@ -86,7 +88,8 @@ class MenuTest {
 
         menu.actions();
 
-        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2))
+                .write("1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details");
         verify(stream, times(2)).write("Please select your choice...");
         verify(stream).write("Sorry! that movie is not available for checkout");
         verify(stream).write("Thank You.");
@@ -95,11 +98,20 @@ class MenuTest {
     @Test
     void shouldLoginAUser() {
         when(stream.readInt()).thenReturn(7, 4);
-        User user = new User("ABC-1234", "password");
+        User user = new User("ABC-1234", "password", stream);
         when(stream.readUser()).thenReturn(user);
 
         menu.actions();
 
         verify(bibliotecaApp).login(user);
+    }
+
+    @Test
+    void shouldShowUserDetailsIfSelected() {
+        when(stream.readInt()).thenReturn(8, 4);
+
+        menu.actions();
+
+        verify(bibliotecaApp).showCurrentUser();
     }
 }

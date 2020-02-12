@@ -146,3 +146,19 @@ class OptionLogin implements MenuOption {
         bibliotecaApp.login(stream.readUser());
     }
 }
+
+class OptionShowUserDetails implements MenuOption {
+
+    private final BibliotecaApp bibliotecaApp;
+    private final Stream stream;
+
+    public OptionShowUserDetails(BibliotecaApp bibliotecaApp, Stream stream) {
+        this.bibliotecaApp = bibliotecaApp;
+        this.stream = stream;
+    }
+
+    @Override
+    public void run() {
+        bibliotecaApp.showCurrentUser();
+    }
+}

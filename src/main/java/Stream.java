@@ -48,6 +48,6 @@ public class Stream {
         String libraryId = scanner.next();
         write("Enter password: ");
         String password = scanner.next();
-        return new User(libraryId, password);
+        return new User(libraryId, password, this);
     }
 }

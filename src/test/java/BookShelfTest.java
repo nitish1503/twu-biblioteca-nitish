@@ -63,7 +63,7 @@ class BookShelfTest {
 
     @Test
     void shouldNotCheckoutABookIfUserIsNotLoggedIn() {
-        BookShelf bookShelf = new BookShelf(books, new User("XXX-XXXX", "xxxxxxxx"), stream);
+        BookShelf bookShelf = new BookShelf(books, new User("XXX-XXXX", "xxxxxxxx", stream), stream);
 
         Assertions.assertThrows(InvalidUserException.class, () -> bookShelf.checkout(books.get(0)));
     }

@@ -23,7 +23,7 @@ public class BookShelf {
     }
 
     public void checkout(Book book) throws BookNotFoundException, InvalidUserException {
-        if (!currentUser.equals(new User("XXX-XXXX", "xxxxxxxx"))) {
+        if (!currentUser.equals(new User("XXX-XXXX", "xxxxxxxx", stream))) {
             if (books.contains(book)) {
                 checkedOutBooks.add(book);
                 books.remove(book);
@@ -40,5 +40,9 @@ public class BookShelf {
             checkedOutBooks.remove(book);
         } else
             throw new BookNotFoundException();
+    }
+
+    public void setCurrentUser(User user) {
+        currentUser = user;
     }
 }

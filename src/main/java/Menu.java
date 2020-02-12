@@ -1,5 +1,5 @@
 public class Menu {
-    private static final String menu = "1. List of books\n2. Checkout\n3. Return\n4. Quit";
+    private static final String menu = "1. List of books\n2. Checkout\n3. Return\n4. Quit\n5. List of movies\n6. Checkout movie\n7. Login\n8. My Details";
     private static final int OPTION_SHOW_BOOK = 1;
     private static final int OPTION_CHECKOUT_BOOK = 2;
     private static final int OPTION_RETURN_BOOK = 3;
@@ -7,6 +7,7 @@ public class Menu {
     private static final int OPTION_SHOW_MOVIE = 5;
     private static final int OPTION_CHECKOUT_MOVIE = 6;
     private static final int OPTION_LOGIN = 7;
+    private static final int OPTION_SHOW_USER_DETAILS = 8;
 
 
     private BibliotecaApp bibliotecaApp;
@@ -53,6 +54,8 @@ public class Menu {
                 return new OptionCheckoutMovie(movieShelf, stream);
             case OPTION_LOGIN:
                 return new OptionLogin(bibliotecaApp, stream);
+            case OPTION_SHOW_USER_DETAILS:
+                return new OptionShowUserDetails(bibliotecaApp, stream);
             default:
                 return new OptionInvalid(stream);
         }

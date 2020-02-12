@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 class BibliotecaAppTest {
 
     @Test
@@ -13,4 +16,14 @@ class BibliotecaAppTest {
         Assertions.assertEquals(expectedMessage, actualMessage);
     }
 
+    @Test
+    void shouldShowCurrentLoggedInUserDetails() {
+        Stream stream = mock(Stream.class);
+        BibliotecaApp bibliotecaApp = new BibliotecaApp();
+        bibliotecaApp.login(new User("ABC-1234", "password", stream));
+
+        bibliotecaApp.showCurrentUser();
+
+        verify(stream).write("Library Id: ABC-1234");
+    }
 }
