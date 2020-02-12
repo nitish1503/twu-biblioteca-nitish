@@ -1,9 +1,16 @@
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Stream {
 
+    private PrintStream printStream;
+
+    public Stream(PrintStream printStream) {
+        this.printStream = printStream;
+    }
+
     public void write(String message) {
-        System.out.println(message);
+        printStream.println(message);
     }
 
     public int readInt() {
@@ -22,4 +29,7 @@ public class Stream {
         return new Book(title, author, yearOfPublication, this);
     }
 
+    public void exit() {
+        write("Thank You!");
+    }
 }

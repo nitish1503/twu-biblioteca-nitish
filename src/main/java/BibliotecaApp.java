@@ -1,5 +1,8 @@
+import Exceptions.ApplicationClosedException;
 import Exceptions.InvalidOptionException;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,10 +13,10 @@ public class BibliotecaApp {
     private static Menu menu;
 
     public BibliotecaApp() {
-        stream = new Stream();
-        List<Book> books = Arrays.asList(
+        stream = new Stream(new PrintStream(System.out));
+        List<Book> books = new ArrayList<>(Arrays.asList(
                 new Book("Book1", "Author1", 1999, stream),
-                new Book("Book2", "Author2", 1990, stream));
+                new Book("Book2", "Author2", 1990, stream)));
         BookShelf bookShelf = new BookShelf(books, stream);
         menu = new Menu(bookShelf, stream);
     }
@@ -27,7 +30,7 @@ public class BibliotecaApp {
         stream.write(bibliotecaApp.welcome());
         try {
             menu.actions();
-        } catch (InvalidOptionException e) {
+        } catch (InvalidOptionException | ApplicationClosedException e) {
             stream.write("Please select a valid option..");
         }
 

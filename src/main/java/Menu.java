@@ -1,4 +1,4 @@
-import Exceptions.BookNotFoundException;
+import Exceptions.ApplicationClosedException;
 import Exceptions.InvalidOptionException;
 
 public class Menu {
@@ -21,40 +21,29 @@ public class Menu {
         stream.write("Please select your choice...");
     }
 
-    public void actions() throws InvalidOptionException {
+    public void actions() throws InvalidOptionException, ApplicationClosedException {
         int option;
 
         do {
             display();
             option = stream.readInt();
-            switch (option) {
-                case OPTION_SHOW_BOOK:
-                    bookShelf.showBooks();
-                    stream.write("\n");
-                    break;
-                case OPTION_CHECKOUT_BOOK:
-                    try {
-                        bookShelf.checkout(stream.readBook());
-                        stream.write("Thank you! Enjoy the book");
-                    } catch (BookNotFoundException e) {
-                        stream.write("Sorry! that book is not available for checkout");
-                    }
-                    break;
-                case OPTION_RETURN_BOOK:
-                    try {
-                        bookShelf.returnBook(stream.readBook());
-                        stream.write("Thanks for returning the book");
-                    } catch (BookNotFoundException e) {
-                        stream.write("Sorry! that book is not valid for return");
-                    }
-                    break;
-                case OPTION_QUIT:
-                    stream.write("Thank You!");
-                    break;
-                default:
-                    throw new InvalidOptionException();
-            }
+            MenuOption menuOption = findOption(option);
+            menuOption.run();
         } while (option != OPTION_QUIT);
+    }
 
+    private MenuOption findOption(int option) throws InvalidOptionException {
+        switch (option) {
+            case OPTION_SHOW_BOOK:
+                return new OptionShowBook(bookShelf);
+            case OPTION_CHECKOUT_BOOK:
+                return new OptionCheckoutBook(bookShelf);
+            case OPTION_RETURN_BOOK:
+                return new OptionReturnBook(bookShelf);
+            case OPTION_QUIT:
+                return new OptionQuit();
+            default:
+                throw new InvalidOptionException();
+        }
     }
 }

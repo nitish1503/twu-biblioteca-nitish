@@ -1,3 +1,4 @@
+import Exceptions.ApplicationClosedException;
 import Exceptions.InvalidOptionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,12 +33,10 @@ class MenuTest {
     }
 
     @Test
-    void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() throws InvalidOptionException {
+    void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() {
         when(stream.readInt()).thenReturn(4);
 
-        menu.actions();
-
-        verify(stream).write("Thank You!");
+        Assertions.assertThrows(ApplicationClosedException.class, () -> menu.actions());
     }
 
 }
