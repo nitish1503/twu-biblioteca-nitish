@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,5 +19,16 @@ class MovieShelfTest {
 
         verify(stream).write("Movie1\t2019\tDirector1\t9");
         verify(stream).write("Movie2\t2018\tDirector2\t8");
+    }
+
+    @Test
+    void shouldCheckOutAMovie() {
+        Stream stream = mock(Stream.class);
+        List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
+        MovieShelf movieShelf = new MovieShelf(movies, stream);
+
+        movieShelf.checkout(movies.get(0));
+
+        Assertions.assertFalse(movies.contains(new Movie("Movie1", 2019, "Director1", 9, stream)));
     }
 }
