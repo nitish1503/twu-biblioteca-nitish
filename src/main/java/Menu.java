@@ -1,6 +1,3 @@
-import Exceptions.ApplicationClosedException;
-import Exceptions.InvalidOptionException;
-
 public class Menu {
     private static final String menu = "1. List of books\n2. Checkout\n3. Return\n4. Quit";
     private static final int OPTION_SHOW_BOOK = 1;
@@ -21,7 +18,7 @@ public class Menu {
         stream.write("Please select your choice...");
     }
 
-    public void actions() throws InvalidOptionException, ApplicationClosedException {
+    public void actions() {
         int option;
 
         do {
@@ -32,18 +29,18 @@ public class Menu {
         } while (option != OPTION_QUIT);
     }
 
-    private MenuOption findOption(int option) throws InvalidOptionException {
+    private MenuOption findOption(int option) {
         switch (option) {
             case OPTION_SHOW_BOOK:
-                return new OptionShowBook(bookShelf);
+                return new OptionShowBook(bookShelf, stream);
             case OPTION_CHECKOUT_BOOK:
-                return new OptionCheckoutBook(bookShelf);
+                return new OptionCheckoutBook(bookShelf, stream);
             case OPTION_RETURN_BOOK:
-                return new OptionReturnBook(bookShelf);
+                return new OptionReturnBook(bookShelf, stream);
             case OPTION_QUIT:
-                return new OptionQuit();
+                return new OptionQuit(stream);
             default:
-                throw new InvalidOptionException();
+                return new OptionInvalid(stream);
         }
     }
 }

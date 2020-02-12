@@ -1,6 +1,3 @@
-import Exceptions.ApplicationClosedException;
-import Exceptions.InvalidOptionException;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,11 +25,6 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         stream.write(bibliotecaApp.welcome());
-        try {
-            menu.actions();
-        } catch (InvalidOptionException | ApplicationClosedException e) {
-            stream.write("Please select a valid option..");
-        }
-
+        menu.actions();
     }
 }

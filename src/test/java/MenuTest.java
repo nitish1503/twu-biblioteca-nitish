@@ -1,8 +1,6 @@
-import Exceptions.ApplicationClosedException;
-import Exceptions.InvalidOptionException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import static org.mockito.Mockito.*;
 
@@ -10,12 +8,14 @@ class MenuTest {
     Stream stream;
     BookShelf bookShelf;
     Menu menu;
+    MenuOption menuOption;
 
     @BeforeEach
     void setup() {
         stream = mock(Stream.class);
         bookShelf = mock(BookShelf.class);
         menu = new Menu(bookShelf, stream);
+        menuOption = mock(MenuOption.class);
     }
 
     @Test
@@ -23,20 +23,31 @@ class MenuTest {
         menu.display();
 
         verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream).write("Please select your choice...");
     }
 
     @Test
-    void shouldThrowAnExceptionWhenChosenAnInvalidOptionFromMenu() {
-        when(stream.readInt()).thenReturn(8);
+    void shouldDisplayAMessageWhenChosenAnInvalidOptionFromMenu() {
+        when(stream.readInt()).thenReturn(8, 4);
+        menu = new Menu(bookShelf, stream);
 
-        Assertions.assertThrows(InvalidOptionException.class, () -> menu.actions());
+        menu.actions();
+
+        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2)).write("Please select your choice...");
+        verify(stream).write("Please select a valid option");
+        verify(stream).write("Thank You.");
     }
 
     @Test
     void shouldQuitTheAppOnlyWhenQuitOptionIsChosen() {
         when(stream.readInt()).thenReturn(4);
 
-        Assertions.assertThrows(ApplicationClosedException.class, () -> menu.actions());
+        menu.actions();
+
+        verify(stream).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream).write("Please select your choice...");
+        verify(stream).write("Thank You.");
     }
 
 }

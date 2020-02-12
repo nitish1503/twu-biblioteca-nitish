@@ -1,20 +1,17 @@
-import Exceptions.ApplicationClosedException;
 import Exceptions.BookNotFoundException;
 
-import java.io.PrintStream;
-
 public interface MenuOption {
-    Stream stream = new Stream(new PrintStream(System.out));
-
-    void run() throws ApplicationClosedException;
+    void run();
 }
 
 class OptionShowBook implements MenuOption {
 
     private BookShelf bookShelf;
+    private Stream stream;
 
-    public OptionShowBook(BookShelf bookShelf) {
+    public OptionShowBook(BookShelf bookShelf, Stream stream) {
         this.bookShelf = bookShelf;
+        this.stream = stream;
     }
 
     @Override
@@ -27,9 +24,11 @@ class OptionShowBook implements MenuOption {
 class OptionCheckoutBook implements MenuOption {
 
     private BookShelf bookShelf;
+    private Stream stream;
 
-    public OptionCheckoutBook(BookShelf bookShelf) {
+    public OptionCheckoutBook(BookShelf bookShelf, Stream stream) {
         this.bookShelf = bookShelf;
+        this.stream = stream;
     }
 
     @Override
@@ -45,9 +44,11 @@ class OptionCheckoutBook implements MenuOption {
 
 class OptionReturnBook implements MenuOption {
     private BookShelf bookShelf;
+    private Stream stream;
 
-    public OptionReturnBook(BookShelf bookShelf) {
+    public OptionReturnBook(BookShelf bookShelf, Stream stream) {
         this.bookShelf = bookShelf;
+        this.stream = stream;
     }
 
     @Override
@@ -62,9 +63,28 @@ class OptionReturnBook implements MenuOption {
 }
 
 class OptionQuit implements MenuOption {
+    private Stream stream;
+
+    public OptionQuit(Stream stream) {
+        this.stream = stream;
+    }
 
     @Override
-    public void run() throws ApplicationClosedException {
-        throw new ApplicationClosedException();
+    public void run() {
+        stream.write("Thank You.");
+    }
+}
+
+class OptionInvalid implements MenuOption {
+
+    private Stream stream;
+
+    public OptionInvalid(Stream stream) {
+        this.stream = stream;
+    }
+
+    @Override
+    public void run() {
+        stream.write("Please select a valid option");
     }
 }

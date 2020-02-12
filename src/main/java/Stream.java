@@ -29,7 +29,4 @@ public class Stream {
         return new Book(title, author, yearOfPublication, this);
     }
 
-    public void exit() {
-        write("Thank You!");
-    }
 }
