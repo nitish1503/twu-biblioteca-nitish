@@ -49,5 +49,4 @@ class MenuTest {
         verify(stream).write("Please select your choice...");
         verify(stream).write("Thank You.");
     }
-
 }
