@@ -69,6 +69,24 @@ class MenuTest {
 
         menu.actions();
 
-        verify(movieShelf).checkout(movie);
+        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2)).write("Please select your choice...");
+        verify(stream).write("Thank You! Enjoy the movie");
+        verify(stream).write("Thank You.");
+    }
+
+    @Test
+    void shouldShowAMessageIfMovieIsNotAvailableForCheckout() throws MovieNotAvailableException {
+        when(stream.readInt()).thenReturn(6, 4);
+        Movie movie = new Movie("Movie3", 2020, "Director3", 9, stream);
+        when(stream.readMovie()).thenReturn(movie);
+        doThrow(MovieNotAvailableException.class).when(movieShelf).checkout(movie);
+
+        menu.actions();
+
+        verify(stream, times(2)).write("1. List of books\n2. Checkout\n3. Return\n4. Quit");
+        verify(stream, times(2)).write("Please select your choice...");
+        verify(stream).write("Sorry! that movie is not available for checkout");
+        verify(stream).write("Thank You.");
     }
 }
