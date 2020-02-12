@@ -67,4 +67,13 @@ class BookShelfTest {
 
         Assertions.assertThrows(InvalidUserException.class, () -> bookShelf.checkout(books.get(0)));
     }
+
+    @Test
+    void shouldNotAcceptABookIfBorrowerIsDifferent() throws BookNotFoundException, InvalidUserException {
+        BookShelf bookShelf = new BookShelf(books, new User("ABC-1234", "password", stream), stream);
+        bookShelf.checkout(books.get(0));
+        bookShelf.setCurrentUser(new User("ABC-5678", "password", stream));
+
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(new Book("Book1", "Author1", 1999, stream)));
+    }
 }

@@ -35,7 +35,7 @@ public class BookShelf {
     }
 
     public void returnBook(Book book) throws BookNotFoundException {
-        if (checkedOutBooks.contains(book)) {
+        if (checkedOutBooks.contains(book) && currentUser.getCheckedOutBooks().contains(book)) {
             books.add(book);
             checkedOutBooks.remove(book);
         } else
