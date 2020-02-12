@@ -1,5 +1,6 @@
 import Exceptions.MovieNotAvailableException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,12 +11,21 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 class MovieShelfTest {
+    Stream stream;
+    MovieShelf movieShelf;
+    List<Movie> movies;
+
+    @BeforeEach
+    void setup() {
+        stream = mock(Stream.class);
+        movies = new ArrayList<>(Arrays.asList(
+                new Movie("Movie1", 2019, "Director1", 9, stream),
+                new Movie("Movie2", 2018, "Director2", 8, stream)));
+        movieShelf = new MovieShelf(movies, stream);
+    }
+
     @Test
     void shouldDisplayTheListOfMoviesWithDetails() {
-        Stream stream = mock(Stream.class);
-        List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
-        MovieShelf movieShelf = new MovieShelf(movies, stream);
-
         movieShelf.showMovies();
 
         verify(stream).write("Movie1\t2019\tDirector1\t9");
@@ -24,10 +34,6 @@ class MovieShelfTest {
 
     @Test
     void shouldCheckOutAMovie() throws MovieNotAvailableException {
-        Stream stream = mock(Stream.class);
-        List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
-        MovieShelf movieShelf = new MovieShelf(movies, stream);
-
         movieShelf.checkout(movies.get(0));
 
         Assertions.assertFalse(movies.contains(new Movie("Movie1", 2019, "Director1", 9, stream)));
@@ -35,10 +41,6 @@ class MovieShelfTest {
 
     @Test
     void shouldThrowAnExceptionWhenMovieIsUnAvailable() {
-        Stream stream = mock(Stream.class);
-        List<Movie> movies = new ArrayList<>(Arrays.asList(new Movie("Movie1", 2019, "Director1", 9, stream), new Movie("Movie2", 2018, "Director2", 8, stream)));
-        MovieShelf movieShelf = new MovieShelf(movies, stream);
-
         Assertions.assertThrows(MovieNotAvailableException.class, () -> movieShelf.checkout(new Movie("Movie1", 2012, "Director1", 8, stream)));
     }
 }
