@@ -1,4 +1,5 @@
 import Exceptions.BookNotFoundException;
+import Exceptions.InvalidUserException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,16 @@ public class BookShelf {
         books.forEach(Book::print);
     }
 
-    public void checkout(Book book) throws BookNotFoundException {
-        if (books.contains(book)) {
-            checkedOutBooks.add(book);
-            books.remove(book);
+    public void checkout(Book book) throws BookNotFoundException, InvalidUserException {
+        if (!currentUser.equals(new User("XXX-XXXX", "xxxxxxxx"))) {
+            if (books.contains(book)) {
+                checkedOutBooks.add(book);
+                books.remove(book);
+            } else
+                throw new BookNotFoundException();
         } else
-            throw new BookNotFoundException();
+            throw new InvalidUserException();
+
     }
 
     public void returnBook(Book book) throws BookNotFoundException {

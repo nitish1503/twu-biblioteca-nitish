@@ -1,4 +1,5 @@
 import Exceptions.BookNotFoundException;
+import Exceptions.InvalidUserException;
 import Exceptions.MovieNotAvailableException;
 
 public interface MenuOption {
@@ -39,6 +40,8 @@ class OptionCheckoutBook implements MenuOption {
             stream.write("Thank you! Enjoy the book");
         } catch (BookNotFoundException e) {
             stream.write("Sorry! that book is not available for checkout");
+        } catch (InvalidUserException e) {
+            stream.write("Please Login to continue...");
         }
     }
 }

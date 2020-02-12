@@ -1,4 +1,5 @@
 import Exceptions.BookNotFoundException;
+import Exceptions.InvalidUserException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class BookShelfTest {
     }
 
     @Test
-    void shouldCheckoutABook() throws BookNotFoundException {
+    void shouldCheckoutABook() throws BookNotFoundException, InvalidUserException {
         bookShelf.checkout(books.get(0));
 
         Assertions.assertFalse(books.contains(new Book("Book1", "Author1", 1999, stream)));
@@ -46,7 +47,7 @@ class BookShelfTest {
     }
 
     @Test
-    void shouldReturnABook() throws BookNotFoundException {
+    void shouldReturnABook() throws BookNotFoundException, InvalidUserException {
         bookShelf.checkout(books.get(0));
 
         bookShelf.returnBook(new Book("Book1", "Author1", 1999, stream));
@@ -58,5 +59,12 @@ class BookShelfTest {
     void shouldThrowAnExceptionOnUnSuccessfulReturnOfABook() {
         Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(
                 new Book("Book3", "Author3", 2000, stream)));
+    }
+
+    @Test
+    void shouldNotCheckoutABookIfUserIsNotLoggedIn() {
+        BookShelf bookShelf = new BookShelf(books, new User("XXX-XXXX", "xxxxxxxx"), stream);
+
+        Assertions.assertThrows(InvalidUserException.class, () -> bookShelf.checkout(books.get(0)));
     }
 }
