@@ -5,7 +5,8 @@ import java.util.List;
 
 public class BibliotecaApp {
     private static final String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
-
+    List<User> users;
+    User currentUser;
     private static Stream stream;
     private static Menu menu;
 
@@ -17,10 +18,15 @@ public class BibliotecaApp {
         List<Movie> movies = new ArrayList<>(Arrays.asList(
                 new Movie("Movie1", 2019, "Director1", 9, stream),
                 new Movie("Movie2", 2018, "Director2", 8, stream)));
-        BookShelf bookShelf = new BookShelf(books, stream);
+
+        users = new ArrayList<>(Arrays.asList(new User("ABC-1234", "password"),
+                new User("ABC-5678", "password")));
+        currentUser = new User("XXX-XXXX", "xxxxxxxx");
+
+        BookShelf bookShelf = new BookShelf(books, currentUser, stream);
         MovieShelf movieShelf = new MovieShelf(movies, stream);
 
-        menu = new Menu(bookShelf, movieShelf, stream);
+        menu = new Menu(this, bookShelf, movieShelf, stream);
     }
 
     public String welcome() {
@@ -31,5 +37,10 @@ public class BibliotecaApp {
         BibliotecaApp bibliotecaApp = new BibliotecaApp();
         stream.write(bibliotecaApp.welcome());
         menu.actions();
+    }
+
+    public void login(User user) {
+        if (users.contains(user))
+            currentUser = user;
     }
 }

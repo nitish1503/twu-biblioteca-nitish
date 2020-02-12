@@ -9,6 +9,7 @@ class MenuTest {
     Stream stream;
     BookShelf bookShelf;
     MovieShelf movieShelf;
+    BibliotecaApp bibliotecaApp;
     Menu menu;
     MenuOption menuOption;
 
@@ -17,7 +18,8 @@ class MenuTest {
         stream = mock(Stream.class);
         bookShelf = mock(BookShelf.class);
         movieShelf = mock(MovieShelf.class);
-        menu = new Menu(bookShelf, movieShelf, stream);
+        bibliotecaApp = mock(BibliotecaApp.class);
+        menu = new Menu(bibliotecaApp, bookShelf, movieShelf, stream);
         menuOption = mock(MenuOption.class);
     }
 
@@ -62,7 +64,7 @@ class MenuTest {
     }
 
     @Test
-    void shouldCheckoutAMovieIfSelectedFromMenu() throws MovieNotAvailableException {
+    void shouldCheckoutAMovieIfSelectedFromMenu() {
         when(stream.readInt()).thenReturn(6, 4);
         Movie movie = new Movie("Movie1", 2019, "Director1", 9, stream);
         when(stream.readMovie()).thenReturn(movie);
@@ -88,5 +90,16 @@ class MenuTest {
         verify(stream, times(2)).write("Please select your choice...");
         verify(stream).write("Sorry! that movie is not available for checkout");
         verify(stream).write("Thank You.");
+    }
+
+    @Test
+    void shouldLoginAUser() {
+        when(stream.readInt()).thenReturn(7, 4);
+        User user = new User("ABC-1234", "password");
+        when(stream.readUser()).thenReturn(user);
+
+        menu.actions();
+
+        verify(bibliotecaApp).login(user);
     }
 }

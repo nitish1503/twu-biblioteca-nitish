@@ -6,12 +6,16 @@ public class Menu {
     private static final int OPTION_QUIT = 4;
     private static final int OPTION_SHOW_MOVIE = 5;
     private static final int OPTION_CHECKOUT_MOVIE = 6;
+    private static final int OPTION_LOGIN = 7;
 
+
+    private BibliotecaApp bibliotecaApp;
     private BookShelf bookShelf;
     private MovieShelf movieShelf;
     private Stream stream;
 
-    public Menu(BookShelf bookShelf, MovieShelf movieShelf, Stream stream) {
+    public Menu(BibliotecaApp bibliotecaApp, BookShelf bookShelf, MovieShelf movieShelf, Stream stream) {
+        this.bibliotecaApp = bibliotecaApp;
         this.bookShelf = bookShelf;
         this.movieShelf = movieShelf;
         this.stream = stream;
@@ -47,6 +51,8 @@ public class Menu {
                 return new OptionShowMovie(movieShelf, stream);
             case OPTION_CHECKOUT_MOVIE:
                 return new OptionCheckoutMovie(movieShelf, stream);
+            case OPTION_LOGIN:
+                return new OptionLogin(bibliotecaApp, stream);
             default:
                 return new OptionInvalid(stream);
         }

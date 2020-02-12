@@ -6,10 +6,12 @@ import java.util.List;
 public class BookShelf {
     private final List<Book> books;
     private final List<Book> checkedOutBooks;
+    private User currentUser;
     private final Stream stream;
 
-    public BookShelf(List<Book> books, Stream stream) {
+    public BookShelf(List<Book> books, User currentUser, Stream stream) {
         this.books = books;
+        this.currentUser = currentUser;
         this.stream = stream;
         this.checkedOutBooks = new ArrayList<>();
     }

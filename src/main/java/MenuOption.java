@@ -127,3 +127,19 @@ class OptionCheckoutMovie implements MenuOption {
         }
     }
 }
+
+class OptionLogin implements MenuOption {
+
+    private BibliotecaApp bibliotecaApp;
+    private final Stream stream;
+
+    public OptionLogin(BibliotecaApp bibliotecaApp, Stream stream) {
+        this.bibliotecaApp = bibliotecaApp;
+        this.stream = stream;
+    }
+
+    @Override
+    public void run() {
+        bibliotecaApp.login(stream.readUser());
+    }
+}

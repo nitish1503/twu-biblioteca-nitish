@@ -42,4 +42,12 @@ public class Stream {
         return new Movie(name, year, director, rating, this);
     }
 
+    public User readUser() {
+        Scanner scanner = new Scanner(System.in);
+        write("Enter Library Id (XXX-XXXX):");
+        String libraryId = scanner.next();
+        write("Enter password: ");
+        String password = scanner.next();
+        return new User(libraryId, password);
+    }
 }

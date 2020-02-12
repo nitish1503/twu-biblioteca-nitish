@@ -21,7 +21,7 @@ class BookShelfTest {
         books = new ArrayList<>(Arrays.asList(
                 new Book("Book1", "Author1", 1999, stream),
                 new Book("Book2", "Author2", 1990, stream)));
-        bookShelf = new BookShelf(books, stream);
+        bookShelf = new BookShelf(books, mock(User.class), stream);
     }
 
     @Test
@@ -59,5 +59,4 @@ class BookShelfTest {
         Assertions.assertThrows(BookNotFoundException.class, () -> bookShelf.returnBook(
                 new Book("Book3", "Author3", 2000, stream)));
     }
-
 }
