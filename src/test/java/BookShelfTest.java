@@ -48,6 +48,7 @@ class BookShelfTest {
 
     @Test
     void shouldReturnABook() throws BookNotFoundException, InvalidUserException {
+        BookShelf bookShelf = new BookShelf(books, new User("ABC-1234", "password", stream), stream);
         bookShelf.checkout(books.get(0));
 
         bookShelf.returnBook(new Book("Book1", "Author1", 1999, stream));

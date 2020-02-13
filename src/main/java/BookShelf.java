@@ -26,6 +26,7 @@ public class BookShelf {
         if (!currentUser.equals(new User("XXX-XXXX", "xxxxxxxx", stream))) {
             if (books.contains(book)) {
                 checkedOutBooks.add(book);
+                currentUser.getCheckedOutBooks().add(book);
                 books.remove(book);
             } else
                 throw new BookNotFoundException();
